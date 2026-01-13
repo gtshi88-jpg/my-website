@@ -21,12 +21,12 @@ export default function Contact() {
                   </h2>
               </div>
               <a 
-                href="mailto:hello@example.com" 
+                href="mailto:shu@the-prism-works.com" 
                 className="mt-8 md:mt-0 px-8 py-4 border border-black rounded-full hover:bg-black hover:text-white transition-all"
                 onMouseEnter={handleMouseEnter} 
                 onMouseLeave={handleMouseLeave}
               >
-                  hello@example.com
+                  shu@the-prism-works.com
               </a>
           </div>
 
@@ -34,8 +34,8 @@ export default function Contact() {
               <div>
                   <p className="text-sm font-bold mb-2">SOCIALS</p>
                   <div className="flex gap-4">
-                      {[Instagram, Twitter, Linkedin, Github].map((Icon, i) => (
-                         <a key={i} href="#" className="hover:text-gray-500 transition-colors" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                      {[Instagram,  Github].map((Icon, i) => (
+                         <a key={i} href="https://www.instagram.com/xiu_884/" className="hover:text-gray-500 transition-colors" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                            <Icon className="w-5 h-5" />
                          </a>
                       ))}
@@ -46,7 +46,7 @@ export default function Contact() {
                   <p className="text-text-sub">Tokyo, Japan</p>
               </div>
               <div className="md:text-right">
-                  <p className="text-text-sub text-sm">© 2024 Portfolio. All Rights Reserved.</p>
+                  <p className="text-text-sub text-sm">© 2024 prism-works. All Rights Reserved.</p>
               </div>
           </div>
        </div>

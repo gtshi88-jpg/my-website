@@ -1,6 +1,6 @@
 export type ServiceItem = {
-  id: string;
-  slug: string;        // URLになります (例: /services/photography)
+  id: number | string;
+  slug: string;        // URL (例: /services/photography)
   title: string;
   desc: string;
   videoSrc: string;
@@ -14,7 +14,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     slug: 'photography',
     title: 'Photography', 
     desc: 'ポートレート、建築、プロダクト撮影まで。光と構図を操り、被写体の持つ本来の魅力を最大限に引き出します。',
-    videoSrc: 'https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4',
+    videoSrc: '/video/photo_image.mp4',
     posterSrc: 'https://images.unsplash.com/photo-1542038784424-48ed7461330d?q=80&w=1600&auto=format&fit=crop',
     hasPlay: false 
   },
@@ -23,7 +23,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     slug: 'videography',
     title: 'Videography', 
     desc: 'シネマティックな映像表現で、ブランドの物語を紡ぎます。企画、撮影、編集、グレーディングまで一貫して対応可能です。',
-    videoSrc: 'https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4', 
+    videoSrc: '/video/video_editing_image.mp4', 
     posterSrc: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?q=80&w=1600&auto=format&fit=crop',
     hasPlay: true 
   },

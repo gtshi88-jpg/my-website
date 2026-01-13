@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default async function ServiceDetailPage({ params }: Props) {
-  // params は Promise なので await する必要があります (Next.js 15/最新仕様)
+  
   const { slug } = await params;
   
   // スラッグに一致するデータを探す

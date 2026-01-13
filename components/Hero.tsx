@@ -4,8 +4,8 @@ import { ArrowDown } from 'lucide-react';
 export default function Hero({ isLoading }: { isLoading: boolean }) {
   return (
     <header className="h-screen flex flex-col justify-center px-6 md:px-20 pt-20 relative overflow-hidden">
-      <video className="absolute top-0 left-0 w-full h-full object-cover z-0" autoPlay muted loop playsInline poster="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1600&auto=format&fit=crop">
-        <source src="https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+      <video className="absolute top-0 left-0 w-full h-full object-cover z-0" autoPlay muted loop playsInline poster="">
+        <source src="/video/portfolio-hero.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/20 z-0"></div>
 

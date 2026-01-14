@@ -38,7 +38,7 @@ export default function Works() {
           {filteredWorks.map((work) => (
             <Link 
               key={work.id} 
-              href={work.url} /* ← 修正箇所: ここでデータ内の固定URLを直接読み込みます */
+              href={work.url} 
               className="block w-full"
               onMouseEnter={handleMouseEnter} 
               onMouseLeave={handleMouseLeave}

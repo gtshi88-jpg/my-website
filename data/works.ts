@@ -1,6 +1,6 @@
 export type WorkItem = {
   id: string;
-  url: string; // ← slug ではなく url (または path) に変更し、フルパスを指定
+  url: string; 
   category: 'photo' | 'video' | 'ui' | 'web';
   title: string;
   subtitle: string;

@@ -4,7 +4,7 @@ import { ArrowDown } from 'lucide-react';
 export default function Hero({ isLoading }: { isLoading: boolean }) {
   return (
     <header className="h-screen flex flex-col justify-center px-6 md:px-20 pt-20 relative overflow-hidden">
-      <video className="absolute top-0 left-0 w-full h-full object-cover z-0" autoPlay muted loop playsInline poster="/root/hero-img.jpg">
+      <video className="absolute top-0 left-0 w-full h-full object-cover z-0" autoPlay muted loop playsInline poster="/video/hero-img.jpg">
         <source src="/video/hero-video.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/20 z-0"></div>
@@ -21,7 +21,7 @@ export default function Hero({ isLoading }: { isLoading: boolean }) {
               I am a Photographer, Videographer, UI Designer, and Web Engineer based in Japan.
               <br className="hidden md:block" />
               <span className="text-white mt-3 block font-normal">
-                写真、映像、デザイン、そしてコード。多角的な視点でデジタル体験を構築します。
+                写真、映像、デザイン、そして設計。多角的な視点でデジタル体験を構築します。
               </span>
             </p>
           </div>

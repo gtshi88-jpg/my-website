@@ -11,7 +11,9 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > window.innerHeight * 0.5) {
+      // 0.5 (50%) だとまだ背景が暗い場合があるので 0.9 (90%) に変更
+      // これで「完全に白いエリアに入ってから」黒文字になります
+      if (window.scrollY > window.innerHeight * 0.9) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -22,12 +24,21 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // ▼ 色の決定ロジック
+  // 1. メニューが開いている時 -> 常に白 (黒背景の上だから)
+  // 2. スクロールした後 -> 黒 (標準の text-black を使用して確実性を向上)
+  // 3. トップにいる時 -> 白
+  const textColorClass = isMenuOpen 
+    ? 'text-white' 
+    : (isScrolled ? 'text-black' : 'text-white');
+
   return (
     <>
-      {/* 1. LOGO (Fixed Left-Top) */}
-      <div className="fixed top-0 left-0 z-50 p-6 md:p-8 mix-blend-difference text-white pointer-events-auto">
-        <Link href="/" className="text-xl font-bold tracking-widest">
-          PORTFOLIO.
+      {/* 1. LOGO */}
+      {/* z-indexを 70 に上げて、メニューオーバーレイ(z-60)より上に表示させます */}
+      <div className={`fixed top-0 left-0 z-[70] p-6 md:p-8 transition-colors duration-300 pointer-events-auto ${textColorClass}`}>
+        <Link href="/" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold tracking-widest">
+          Prism Works.
         </Link>
       </div>
 
@@ -35,30 +46,19 @@ export default function Navigation() {
       <nav 
         className={`
           hidden md:flex flex-col fixed top-0 
-          right-[20%] /* ← 変更: 30%ではなく20%の位置へ */
+          right-[20%] 
           z-40 h-screen w-auto 
-          items-start pt-32 /* ← 変更: 中央揃え(justify-center)を廃止し、ロゴの下あたりに来るよう余白調整 */
+          items-start pt-32 
           transition-all duration-700 ease-in-out
           ${isScrolled ? 'opacity-0 translate-y-[-20px] pointer-events-none' : 'opacity-100 translate-y-0 pointer-events-auto'}
         `}
       >
-        <div className="flex flex-col gap-8 text-sm font-medium tracking-wide mix-blend-difference text-white">
-          
-          {/* SERVICES (Hover Logic) */}
+        <div className="flex flex-col gap-8 text-sm font-medium tracking-wide text-white mix-blend-difference">
           <div className="relative group">
             <Link href="/#services" className="block hover:opacity-70 transition-opacity py-2">
               SERVICES
             </Link>
-
-            {/* Sub Menu */}
-            <div 
-              className={`
-                absolute left-full top-0 pl-16 w-64
-                opacity-0 -translate-x-4 pointer-events-none
-                group-hover:opacity-100 group-hover:translate-x-0 group-hover:pointer-events-auto
-                transition-all duration-300 ease-out
-              `}
-            >
+            <div className="absolute left-full top-0 pl-16 w-64 opacity-0 -translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-300 ease-out">
               <div className="flex flex-col gap-4 border-l border-white/30 pl-6 py-1">
                 {SERVICES_DATA.map((service) => (
                   <Link 
@@ -79,13 +79,13 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* 3. Scrolled Menu Trigger (Collapsed Mode) */}
+      {/* 3. Scrolled Menu Trigger (PC Only) */}
       <button 
         onClick={() => setIsMenuOpen(true)}
         className={`
-          hidden md:block fixed top-6 right-6 z-50 mix-blend-difference text-white
+          hidden md:block fixed top-6 right-6 z-50 
           transition-all duration-500 delay-100
-          ${isScrolled ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'}
+          ${isScrolled ? 'opacity-100 translate-y-0 pointer-events-auto text-black' : 'opacity-0 -translate-y-4 pointer-events-none text-white'}
         `}
       >
         <div className="flex items-center gap-2 group cursor-pointer">
@@ -95,28 +95,28 @@ export default function Navigation() {
       </button>
 
       {/* 4. Mobile Navigation Trigger */}
+      {/* z-indexを 70 に上げて、メニューが開いた後も「X」ボタンの代わりにこの位置をキープできるようにします */}
       <button 
-        className="md:hidden fixed top-6 right-6 z-50 mix-blend-difference text-white"
-        onClick={() => setIsMenuOpen(true)}
+        className={`md:hidden fixed top-6 right-6 z-[70] transition-colors duration-300 ${textColorClass}`}
+        onClick={() => setIsMenuOpen(!isMenuOpen)} // トグル動作に変更
       >
-        <Menu className="w-8 h-8" />
+        {isMenuOpen ? (
+           <X className="w-8 h-8" />
+        ) : (
+           <Menu className="w-8 h-8" />
+        )}
       </button>
 
       {/* 5. Full Screen Menu Overlay */}
-      <div className={`fixed top-0 right-0 w-full h-screen bg-black-main text-white-main z-[60] flex flex-col justify-center items-center gap-8 text-3xl font-light transition-transform duration-500 ease-cubic ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <button 
-          className="absolute top-6 right-6 hover:text-gray-400 transition-colors"
-          onClick={() => setIsMenuOpen(false)}
-        >
-          <X className="w-8 h-8" />
-        </button>
+      <div className={`fixed top-0 right-0 w-full h-screen bg-[#0a0a0a] text-white z-[60] flex flex-col justify-center items-center gap-8 text-3xl font-light transition-transform duration-500 ease-cubic ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         
+        {/* メニューリンク */}
         {['SERVICES', 'WORK', 'ABOUT', 'CONTACT'].map((item) => (
           <Link 
             key={item} 
             href={`/#${item.toLowerCase()}`} 
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-gray-400 transition-colors"
+            className="hover:text-gray-400 transition-colors text-white"
           >
             {item}
           </Link>

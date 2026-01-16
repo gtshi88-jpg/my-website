@@ -32,8 +32,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     slug: 'ui-ux-design',
     title: 'UI/UX Design', 
     desc: '美しさと機能性を兼ね備えたインターフェースデザイン。ユーザー体験を第一に考え、直感的で洗練されたデザインを提供します。',
-    videoSrc: '/video/uiux-img.mp4',
-    posterSrc: 'https://images.unsplash.com/photo-1586717791821-3f44a5638d0f?q=80&w=1600&auto=format&fit=crop',
+    videoSrc: '/video/uiux-img2.mp4',
+    posterSrc: '/video/EC_img.jpg',
     hasPlay: false 
   },
   { 
@@ -41,8 +41,8 @@ export const SERVICES_DATA: ServiceItem[] = [
     slug: 'engineering',
     title: 'Engineering', 
     desc: 'デザインを忠実に再現し、パフォーマンスの高いWebサイトを構築。モダンな技術スタック(React/Next.js)を用いた実装が得意です。',
-    videoSrc: '/video/ec-img.mp4',
-    posterSrc: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1600&auto=format&fit=crop',
+    videoSrc: '/video/ec-img2.mp4',
+    posterSrc: '/video/EC-poster.jpg',
     hasPlay: false 
   },
 ];

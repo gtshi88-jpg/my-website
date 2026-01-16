@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 
-// コンポーネントのインポート
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
@@ -12,90 +11,106 @@ import About from '@/components/About';
 import Contact from '@/components/Contact';
 
 export default function Portfolio() {
+  // 初期値は true だが、useEffectで即座に判定する
   const [isLoading, setIsLoading] = useState(true);
   const [percent, setPercent] = useState(0);
+  const [isFirstVisit, setIsFirstVisit] = useState(true); // 初回訪問判定用
 
   // ---------------------------------------------------------
-  // 1. ローディングカウントアップ処理
+  // 1. ローディング判定 & カウントアップ処理
   // ---------------------------------------------------------
   useEffect(() => {
-    // 0% -> 99% まで進めるタイマー
-    const interval = setInterval(() => {
-      setPercent((prev) => {
-        if (prev >= 99) return 99; // 読み込み完了待ち
-        return prev + 1;
-      });
-    }, 20); // 数字が上がるスピード
+    // セッションストレージを確認（ブラウザを閉じるまで有効）
+    const hasVisited = sessionStorage.getItem('visited');
 
-    // 擬似的な読み込み完了タイマー (2.0秒後に完了とする)
-    const completionTimer = setTimeout(() => {
-      setPercent(100); // 強制的に100%へ
+    if (hasVisited) {
+      // ■ 2回目以降の訪問の場合
+      setIsLoading(false);     // ローディング画面を出さない
+      setIsFirstVisit(false);  // アニメーション用フラグもオフ
+      setPercent(100);
       
-      // 100%を見せてから少し待ってローダーを消す
+      // スクロールアニメーション用のクラスを即座に付与
       setTimeout(() => {
-        clearInterval(interval);
-        setIsLoading(false);
-      }, 500);
-    }, 2000);
+         document.querySelectorAll('.scroll-trigger').forEach(el => {
+             el.classList.add('animate-fade-in-up', 'opacity-100'); // 最初から表示
+             el.classList.remove('opacity-0');
+         });
+         document.querySelectorAll('.reveal-text-init').forEach(el => el.classList.add('is-visible'));
+      }, 100);
 
-    return () => {
-      clearInterval(interval);
-      clearTimeout(completionTimer);
-    };
+    } else {
+      // ■ 初回訪問の場合
+      // 訪問済みフラグをセット
+      sessionStorage.setItem('visited', 'true');
+
+      // --- カウントアップ処理 (前回と同じ) ---
+      const interval = setInterval(() => {
+        setPercent((prev) => {
+          if (prev >= 99) return 99;
+          return prev + 1;
+        });
+      }, 20);
+
+      const completionTimer = setTimeout(() => {
+        setPercent(100);
+        setTimeout(() => {
+          clearInterval(interval);
+          setIsLoading(false);
+        }, 500);
+      }, 2000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(completionTimer);
+      };
+    }
   }, []);
 
   // ---------------------------------------------------------
   // 2. スクロールアニメーション (Intersection Observer)
   // ---------------------------------------------------------
   useEffect(() => {
-    // ローディング中は監視しない（DOMの高さが確定していない可能性があるため）
     if (isLoading) return;
 
-    // 監視の設定
+    // 初回訪問でない場合、すでに表示済み処理をしているのでObserverは不要な場合もあるが、
+    // 下の方のコンテンツのために走らせておく
     const observerOptions = {
       root: null,
-      rootMargin: "0px 0px -50px 0px", // 画面下から50px入ったら発火
+      rootMargin: "0px 0px -50px 0px",
       threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // ふわっと表示させるクラスを付与
           entry.target.classList.add('animate-fade-in-up');
           entry.target.classList.remove('opacity-0');
-          
-          // テキストリビール用
           if (entry.target.classList.contains('reveal-text-container')) {
              entry.target.classList.add('is-visible');
           }
-          
-          // 一度表示したら監視を終了（パフォーマンス対策）
           observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    // 少しだけ遅らせてDOM取得を確実にする
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       const targets = document.querySelectorAll('.scroll-trigger');
       targets.forEach(el => observer.observe(el));
       
-      // 初期のテキスト表示（Heroセクション用）
-      document.querySelectorAll('.reveal-text-init').forEach(el => el.classList.add('is-visible'));
+      // 初回訪問時のみ、ふわっと出す演出をする
+      if (isFirstVisit) {
+        document.querySelectorAll('.reveal-text-init').forEach(el => el.classList.add('is-visible'));
+      }
     }, 100);
 
-    return () => {
-      clearTimeout(timer);
-      observer.disconnect();
-    };
-  }, [isLoading]); // isLoadingが変わったタイミングで再実行
+    return () => observer.disconnect();
+  }, [isLoading, isFirstVisit]);
 
   return (
     <>
-      {/* Loader Overlay (Center Layout) 
-        - justify-center items-center で画面中央配置に変更
-      */}
+      {/* Loader Overlay */}
+      {/* isLoadingが false になったらDOM自体を削除するように条件付きレンダリングに変更しても良いが、
+          フェードアウト演出のために opacity で制御する形を維持 */}
       <div 
         className={`
           fixed top-0 left-0 w-full h-full bg-white z-[10000] 
@@ -105,24 +120,22 @@ export default function Portfolio() {
         `}
       >
         <div className="relative">
-          {/* パーセンテージ表示 */}
           <div className="text-9xl md:text-[10rem] font-bold leading-none tracking-tighter text-black-main tabular-nums">
             {percent}%
           </div>
-          
-          {/* 装飾テキスト */}
           <div className="absolute -bottom-8 left-0 w-full text-center text-sm font-medium tracking-[0.4em] text-gray-400 animate-pulse">
             LOADING
           </div>
         </div>
       </div>
 
-      {/* Navigation */}
       <Navigation />
 
-      {/* Main Content */}
       <main>
-        {/* HeroにはisLoadingを渡して、ローダーが消えてから動画などが動き出す制御も可能 */}
+        {/* Heroコンポーネントにも isFirstVisit を渡して、
+           「初回なら派手に文字が出る」「2回目なら最初から文字が出ている」
+           という制御をするとさらにストレスが減ります
+        */}
         <Hero isLoading={isLoading} />
         <Services />
         <Works />

@@ -8,9 +8,7 @@ import { WORKS_DATA } from '@/data/works';
 export default function Works() {
   const [activeFilter, setActiveFilter] = useState('all');
 
-  const handleMouseEnter = () => document.body.classList.add('hovering');
-  const handleMouseLeave = () => document.body.classList.remove('hovering');
-
+  // フィルタリング処理
   const filteredWorks = WORKS_DATA.filter(item => {
     return activeFilter === 'all' || item.category === activeFilter;
   });
@@ -18,6 +16,7 @@ export default function Works() {
   return (
     <section id="work" className="px-6 md:px-20 py-24 bg-white-main border-t border-black/5">
       <div className="max-w-[1600px] mx-auto">
+        {/* タイトル部分はスクロール監視の対象のままでOK */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 scroll-trigger opacity-0">
           <h2 className="text-4xl md:text-6xl font-medium text-text-main">SELECTED WORK</h2>
           
@@ -34,16 +33,21 @@ export default function Works() {
           </div>
         </div>
 
+        {/* 作品グリッド */}
         <div className="grid grid-cols-1 gap-y-24 md:gap-y-32">
           {filteredWorks.map((work) => (
             <Link 
               key={work.id} 
               href={work.url} 
               className="block w-full"
-              onMouseEnter={handleMouseEnter} 
-              onMouseLeave={handleMouseLeave}
             >
-              <article className="work-card group relative cursor-pointer scroll-trigger opacity-0 animate-fade-in-up">
+              {/* ▼ 修正点:
+                 1. 'scroll-trigger', 'opacity-0' を削除しました。
+                    (フィルタリング後に透明のままになるバグを防ぐため)
+                 2. 代わりに 'animate-fade-in-up' を直接適用し、キー(key)が変わるたびに
+                    アニメーションが再生されるようにします。
+              */}
+              <article className="work-card group relative cursor-pointer animate-fade-in-up">
                  <div className="w-full aspect-[3/4] md:aspect-[16/10] overflow-hidden bg-gray-100 relative">
                       <Image 
                         src={work.image} 
@@ -68,6 +72,13 @@ export default function Works() {
               </article>
             </Link>
           ))}
+          
+          {/* 該当なしの場合のメッセージ（念のため） */}
+          {filteredWorks.length === 0 && (
+            <div className="py-20 text-center text-gray-400">
+              No works found in this category.
+            </div>
+          )}
         </div>
       </div>
     </section>

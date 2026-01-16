@@ -22,10 +22,10 @@ export const WORKS_DATA: WorkItem[] = [
   {
     id: '2',
     url: 'https://www.instagram.com/p/DK6RLBAJ2Vf/', // ← フォルダ名と一致させる
-    category: 'ui',
-    title: 'Fintech Wallet',
-    subtitle: 'Mobile App Redesign',
-    label: 'UI/UX Design',
+    category: 'video',
+    title: 'Clinic Promotion Video',
+    subtitle: 'clinic-pv',
+    label: 'videography',
     image: '/images/root/tiam-pv-thumbnail.JPG'
   },
   // ... 他のアイテムも同様に修正

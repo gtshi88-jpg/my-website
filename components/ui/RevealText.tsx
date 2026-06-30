@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 
+// リビールテキスト
 export const RevealText = ({ 
   children, 
   delay = 0, 
@@ -13,6 +14,7 @@ export const RevealText = ({
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
+  // リビールテキストが画面に入った時
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) setIsVisible(true);
@@ -22,6 +24,7 @@ export const RevealText = ({
     return () => observer.disconnect();
   }, []);
 
+  // リビールテキストを返す
   return (
     <div 
       ref={ref} 

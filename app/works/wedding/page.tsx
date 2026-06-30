@@ -66,7 +66,7 @@ export default function WeddingPage() {
       
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 px-6 py-6 md:px-12 flex justify-between items-center transition-all duration-500 ${isHeaderVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'} mix-blend-difference text-white`}>
-        <Link href="/#work" className="flex items-center gap-3 text-xs tracking-[0.2em] uppercase hover:opacity-70 transition-opacity group font-sans">
+        <Link href="/works" className="flex items-center gap-3 text-xs tracking-[0.2em] uppercase hover:opacity-70 transition-opacity group font-sans">
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform"/>
           <span>Back to Works</span>
         </Link>
@@ -134,7 +134,7 @@ export default function WeddingPage() {
       {/* Act 2: Atmosphere (Masonry Grid) */}
       <section className="px-4 md:px-12 pb-32">
         <RevealText className="mb-12 text-center">
-          <h3 className="text-2xl font-light italic font-serif">"Details & Texture"</h3>
+          <h3 className="text-2xl font-light italic font-serif">&quot;Details & Texture&quot;</h3>
         </RevealText>
         
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
@@ -249,7 +249,7 @@ export default function WeddingPage() {
             
           <div className="pt-16 flex justify-center gap-8 text-[10px] tracking-widest uppercase text-gray-400 font-sans">
             <Link href="#" className="hover:text-black transition-colors">Back to Top</Link>
-            <Link href="/#work" className="hover:text-black transition-colors">All Works</Link>
+            <Link href="/works" className="hover:text-black transition-colors">All Works</Link>
           </div>
             
           <p className="text-[10px] text-gray-300 tracking-widest mt-8 font-sans">&copy; 2024 Studio.M Portfolio</p>

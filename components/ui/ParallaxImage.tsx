@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
+// パララックスイメージ
 export const ParallaxImage = ({ 
   src, 
   alt, 
@@ -19,6 +20,7 @@ export const ParallaxImage = ({
   const [isVisible, setIsVisible] = useState(false);
   const [offset, setOffset] = useState(0);
 
+  // パララックスイメージが画面に入った時
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) setIsVisible(true);
@@ -26,6 +28,7 @@ export const ParallaxImage = ({
     
     if (ref.current) observer.observe(ref.current);
     
+    // スクロールした時
     const handleScroll = () => {
       if (!ref.current) return;
       const rect = ref.current.getBoundingClientRect();
@@ -40,6 +43,7 @@ export const ParallaxImage = ({
     };
   }, [speed]);
 
+  // パララックスイメージを返す
   return (
     <div ref={ref} className={`relative overflow-hidden ${containerClass}`}>
       <div className={`absolute inset-0 bg-[#F5F5F0] z-20 transition-transform duration-[1.2s] ease-[cubic-bezier(0.76,0,0.24,1)] origin-bottom ${isVisible ? 'scale-y-0' : 'scale-y-100'}`} />

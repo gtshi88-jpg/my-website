@@ -14,8 +14,9 @@ const notoSansJP = Noto_Sans_JP({
 });
 
 export const metadata: Metadata = {
-  title: "PORTFOLIO | Photographer & UI Engineer",
-  description: "Digital Craftsman based in Japan",
+  title: "Prism Works | Web制作・ECサイト構築",
+  description:
+    "Prism Worksは、コーポレートサイト・ECサイトの制作から運用、撮影・映像までワンストップで手がける、日本のデジタルスタジオです。",
 };
 
 export default function RootLayout({

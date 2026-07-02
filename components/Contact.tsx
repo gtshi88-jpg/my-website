@@ -52,9 +52,12 @@ export default function Contact() {
               <div>
                   <p className="text-sm font-bold mb-2">SOCIALS</p>
                   <div className="flex gap-4">
-                      {[Instagram,  Github].map((Icon, i) => (
-                         <a key={i} href="https://www.instagram.com/xiu_884/" className="text-white/70 hover:text-white transition-colors" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                           <Icon className="w-5 h-5" />
+                      {[
+                        { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/xiu_884/' },
+                        { Icon: Github, label: 'GitHub', href: 'https://www.instagram.com/xiu_884/' },
+                      ].map(({ Icon, label, href }) => (
+                         <a key={label} href={href} aria-label={label} className="text-white/70 hover:text-white transition-colors" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                           <Icon className="w-5 h-5" aria-hidden="true" />
                          </a>
                       ))}
                   </div>

@@ -39,7 +39,7 @@ export default function About() {
             
             <div className="grid grid-cols-2 gap-4 pt-8 border-t border-white/10">
                 <div>
-                    <h4 className="text-white-main font-medium mb-2">Services</h4>
+                    <h3 className="text-white-main font-medium mb-2">Services</h3>
                     <ul className="text-sm text-white/60 space-y-1">
                         <li>Web Design / Corporate Site</li>
                         <li>E-Commerce</li>
@@ -48,7 +48,7 @@ export default function About() {
                     </ul>
                 </div>
                 <div>
-                    <h4 className="text-white-main font-medium mb-2">Tech Stack</h4>
+                    <h3 className="text-white-main font-medium mb-2">Tech Stack</h3>
                     <ul className="text-sm text-white/60 space-y-1">
                         <li>React / Next.js</li>
                         <li>TypeScript</li>

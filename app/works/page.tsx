@@ -5,7 +5,7 @@ import { ArrowUpRight, ChevronRight } from 'lucide-react';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import Reveal from '@/components/ui/Reveal';
-import WorksBackground3D from '@/components/works/WorksBackground3D';
+import SiteAtmosphere from '@/components/SiteAtmosphere';
 import { COMPANY } from '@/data/company';
 import { WORKS_DATA, WORK_CATEGORIES } from '@/data/works';
 
@@ -24,8 +24,8 @@ export default function WorksPage() {
     <main className="relative bg-black-main text-white-main">
       <SiteHeader theme="dark" />
 
-      {/* 常時アニメーションする WebGL 背景（固定・コンテンツの背後） */}
-      <WorksBackground3D />
+      {/* 全ページ共通の背景アトモスフィア（星屑＋グロー） */}
+      <SiteAtmosphere />
 
       <div className="relative z-10">
         {/* HERO */}

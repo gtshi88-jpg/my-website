@@ -50,6 +50,24 @@ export const WORK_CATEGORIES: WorkCategoryMeta[] = [
 
 export const WORKS_DATA: WorkItem[] = [
   {
+    id: 'neew',
+    url: 'https://neewinc.com/ja',
+    category: 'web',
+    title: 'neew Corporate Site',
+    subtitle: 'neewinc.com',
+    label: 'Web Engineering',
+    image: '/images/works/neew-hero.png',
+  },
+  {
+    id: 'galaxia',
+    url: 'https://galaxia-app.com/ja/',
+    category: 'web',
+    title: 'GALAXIA',
+    subtitle: 'galaxia-app.com',
+    label: 'Web Engineering',
+    image: '/images/works/galaxia-hero.png',
+  },
+  {
     id: '1',
     url: '/works/wedding', 
     category: 'photo',
@@ -66,59 +84,5 @@ export const WORKS_DATA: WorkItem[] = [
     subtitle: 'clinic-pv',
     label: 'videography',
     image: '/images/root/tiam-pv-thumbnail.JPG'
-  },
-  {
-    id: '3',
-    url: '/#contact',
-    category: 'web',
-    title: 'Corporate Website Renewal',
-    subtitle: 'dummy-corporate-site',
-    label: 'Web Engineering',
-    image: '/video/EC_img.jpg'
-  },
-  {
-    id: '4',
-    url: '/#contact',
-    category: 'ui',
-    title: 'Commerce UI Prototype',
-    subtitle: 'dummy-ui-system',
-    label: 'UI Design',
-    image: '/video/EC-poster.jpg'
-  },
-  {
-    id: '5',
-    url: '/#contact',
-    category: 'photo',
-    title: 'Editorial Portrait Series',
-    subtitle: 'dummy-portrait-shoot',
-    label: 'Photography',
-    image: '/images/root/my-bio-img.jpg'
-  },
-  {
-    id: '6',
-    url: '/#contact',
-    category: 'video',
-    title: 'Brand Motion Reel',
-    subtitle: 'dummy-brand-film',
-    label: 'Videography',
-    image: '/video/hero-img.jpg'
-  },
-  {
-    id: '7',
-    url: '/#contact',
-    category: 'web',
-    title: 'E-Commerce Launch Kit',
-    subtitle: 'dummy-commerce-build',
-    label: 'Web Engineering',
-    image: '/video/EC-poster.jpg'
-  },
-  {
-    id: '8',
-    url: '/#contact',
-    category: 'ui',
-    title: 'Booking Experience Design',
-    subtitle: 'dummy-product-design',
-    label: 'UI Design',
-    image: '/video/EC_img.jpg'
   },
 ];

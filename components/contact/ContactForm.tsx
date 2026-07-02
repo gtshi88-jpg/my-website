@@ -43,14 +43,14 @@ export default function ContactForm() {
     window.location.href = url;
   };
 
-  const labelClass = 'flex items-center gap-3 text-sm md:text-base font-bold tracking-wide mb-3';
+  const labelClass = 'flex items-center gap-3 text-sm md:text-base font-bold tracking-wide mb-3 text-white-main';
   const requiredBadge = (
-    <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-black text-white">
+    <span className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded-full bg-white text-black">
       必須
     </span>
   );
   const inputClass =
-    'w-full bg-white border border-black/15 rounded-xl px-5 py-4 text-base text-text-main placeholder:text-text-sub/50 focus:outline-none focus:border-black/60 transition-colors';
+    'w-full bg-white/5 border border-white/15 rounded-xl px-5 py-4 text-base text-white-main placeholder:text-white/35 focus:outline-none focus:border-white/50 transition-colors';
 
   return (
     <form onSubmit={handleSubmit} className="space-y-10 md:space-y-12">
@@ -128,7 +128,7 @@ export default function ContactForm() {
               <label
                 key={service}
                 className={`flex items-center gap-3 px-5 py-4 rounded-xl border cursor-pointer transition-colors ${
-                  checked ? 'border-black bg-black text-white' : 'border-black/15 bg-white hover:border-black/40'
+                  checked ? 'border-white bg-white text-black' : 'border-white/15 bg-white/5 text-white/80 hover:border-white/40'
                 }`}
               >
                 <input
@@ -139,11 +139,11 @@ export default function ContactForm() {
                 />
                 <span
                   className={`flex items-center justify-center w-5 h-5 rounded border ${
-                    checked ? 'border-white' : 'border-black/30'
+                    checked ? 'border-black' : 'border-white/40'
                   }`}
                   aria-hidden="true"
                 >
-                  {checked && <span className="w-2.5 h-2.5 bg-white rounded-[2px]" />}
+                  {checked && <span className="w-2.5 h-2.5 bg-black rounded-[2px]" />}
                 </span>
                 <span className="text-sm md:text-base font-medium">{service}</span>
               </label>
@@ -175,10 +175,10 @@ export default function ContactForm() {
           required
           checked={agreed}
           onChange={(e) => setAgreed(e.target.checked)}
-          className="mt-1 w-5 h-5 accent-black shrink-0"
+          className="mt-1 w-5 h-5 accent-white shrink-0"
         />
-        <span className="text-sm md:text-base text-text-sub leading-relaxed">
-          <Link href="/privacy" className="text-text-main underline underline-offset-2 hover:opacity-60 transition-opacity">
+        <span className="text-sm md:text-base text-white/60 leading-relaxed">
+          <Link href="/privacy" className="text-white-main underline underline-offset-2 hover:opacity-60 transition-opacity">
             プライバシーポリシー
           </Link>
           に同意の上、送信します。
@@ -190,7 +190,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={!agreed}
-          className="group inline-flex items-center gap-3 text-sm md:text-base font-bold tracking-wide px-9 py-5 bg-black text-white rounded-full hover:opacity-80 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+          className="group inline-flex items-center gap-3 text-sm md:text-base font-bold tracking-wide px-9 py-5 bg-white text-black rounded-full hover:opacity-80 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
         >
           お仕事について問い合わせる
           <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

@@ -51,7 +51,7 @@ const sections: { heading: string; body: React.ReactNode }[] = [
     body: (
       <p>
         ご本人から個人情報の開示・訂正・削除のお求めがあった場合は、ご本人であることを確認の上、法令に従い遅滞なく対応いたします。お問い合わせは
-        <a href={`mailto:${COMPANY.email}`} className="border-b border-black/20 hover:border-black transition-colors mx-1">{COMPANY.email}</a>
+        <a href={`mailto:${COMPANY.email}`} className="border-b border-white/30 hover:border-white transition-colors mx-1">{COMPANY.email}</a>
         までご連絡ください。
       </p>
     ),
@@ -81,7 +81,7 @@ export default function PrivacyPage() {
         {sections.map((section) => (
           <section key={section.heading}>
             <h2 className="text-xl md:text-2xl font-medium mb-4">{section.heading}</h2>
-            <div className="text-base md:text-lg font-light leading-relaxed text-text-sub space-y-3">
+            <div className="text-base md:text-lg font-light leading-relaxed text-white/60 space-y-3">
               {section.body}
             </div>
           </section>

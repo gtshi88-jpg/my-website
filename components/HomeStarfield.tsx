@@ -5,7 +5,9 @@ import * as THREE from 'three';
 
 type RenderState = {
   rafId: number;
+  visibilityRafId: number;
   disposed: boolean;
+  running: boolean;
 };
 
 /**
@@ -15,7 +17,12 @@ type RenderState = {
  */
 export default function HomeStarfield() {
   const hostRef = useRef<HTMLDivElement | null>(null);
-  const stateRef = useRef<RenderState>({ rafId: 0, disposed: false });
+  const stateRef = useRef<RenderState>({
+    rafId: 0,
+    visibilityRafId: 0,
+    disposed: false,
+    running: false,
+  });
 
   useEffect(() => {
     const host = hostRef.current;
@@ -24,6 +31,7 @@ export default function HomeStarfield() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const state = stateRef.current;
     state.disposed = false;
+    state.running = false;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
@@ -35,7 +43,7 @@ export default function HomeStarfield() {
       powerPreference: 'high-performance',
     });
     renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.1));
     renderer.domElement.className = 'home-starfield-canvas';
     host.appendChild(renderer.domElement);
 
@@ -67,8 +75,8 @@ export default function HomeStarfield() {
     };
 
     const isSmall = window.innerWidth < 768;
-    const farLayer = makeLayer(isSmall ? 320 : 520, 46, 28, 0.07, 0.5);
-    const nearLayer = makeLayer(isSmall ? 140 : 240, 38, 20, 0.12, 0.7);
+    const farLayer = makeLayer(isSmall ? 180 : 260, 46, 28, 0.07, 0.45);
+    const nearLayer = makeLayer(isSmall ? 70 : 120, 38, 20, 0.12, 0.62);
 
     const pointer = new THREE.Vector2(0, 0);
     const target = new THREE.Vector2(0, 0);
@@ -91,7 +99,7 @@ export default function HomeStarfield() {
     const clock = new THREE.Clock();
     const motionScale = prefersReducedMotion ? 0.2 : 1;
 
-    const render = () => {
+    const renderFrame = () => {
       const elapsed = clock.getElapsedTime();
 
       // ゆっくり漂うような回転＋上下のうねり
@@ -107,18 +115,79 @@ export default function HomeStarfield() {
       camera.lookAt(0, 0, 0);
 
       renderer.render(scene, camera);
+    };
 
-      if (!state.disposed) {
+    const render = () => {
+      state.rafId = 0;
+      renderFrame();
+
+      if (!state.disposed && state.running && !prefersReducedMotion) {
         state.rafId = window.requestAnimationFrame(render);
       }
     };
-    render();
+
+    const start = () => {
+      if (state.disposed) return;
+      host.classList.remove('is-paused');
+      if (prefersReducedMotion) {
+        renderFrame();
+        return;
+      }
+      if (state.running) return;
+      state.running = true;
+      state.rafId = window.requestAnimationFrame(render);
+    };
+
+    const stop = () => {
+      state.running = false;
+      if (state.rafId) {
+        window.cancelAnimationFrame(state.rafId);
+        state.rafId = 0;
+      }
+      host.classList.add('is-paused');
+    };
+
+    const updateVisibility = () => {
+      state.visibilityRafId = 0;
+      const hero = document.querySelector<HTMLElement>('.hero-shell');
+      const services = document.querySelector<HTMLElement>('#services');
+
+      if (!hero || !services) {
+        start();
+        return;
+      }
+
+      const viewportHeight = window.innerHeight;
+      const heroRect = hero.getBoundingClientRect();
+      const serviceRect = services.getBoundingClientRect();
+      const shouldRun = heroRect.bottom > -viewportHeight * 0.2
+        && serviceRect.top > viewportHeight * 0.18;
+
+      if (shouldRun) {
+        start();
+      } else {
+        stop();
+      }
+    };
+
+    const requestVisibilityUpdate = () => {
+      if (state.visibilityRafId) return;
+      state.visibilityRafId = window.requestAnimationFrame(updateVisibility);
+    };
+
+    updateVisibility();
+    window.addEventListener('scroll', requestVisibilityUpdate, { passive: true });
+    window.addEventListener('resize', requestVisibilityUpdate);
 
     return () => {
       state.disposed = true;
+      state.running = false;
       window.cancelAnimationFrame(state.rafId);
+      window.cancelAnimationFrame(state.visibilityRafId);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('resize', requestVisibilityUpdate);
+      window.removeEventListener('scroll', requestVisibilityUpdate);
 
       scene.traverse((object) => {
         if (object instanceof THREE.Points) {

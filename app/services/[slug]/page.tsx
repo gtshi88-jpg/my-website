@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Layers, MonitorSmartphone, MousePointer2 } from 'lucide-react';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
+import SiteAtmosphere from '@/components/SiteAtmosphere';
 import Reveal from '@/components/ui/Reveal';
 import { COMPANY } from '@/data/company';
 import { SERVICES_DATA, type ServiceDetail, type ServiceItem } from '@/data/services';
@@ -131,30 +132,32 @@ export default async function ServiceDetailPage({ params }: Props) {
   const relatedServices = SERVICES_DATA.filter((item) => item.slug !== service.slug).slice(0, 3);
 
   return (
-    <main className="service-detail-page bg-[#f7f7f4] text-text-main">
-      <SiteHeader theme="light" />
+    <main className="service-detail-page relative bg-black-main text-white-main">
+      <SiteHeader theme="dark" />
+      <SiteAtmosphere />
 
+      <div className="relative z-10">
       <section className="service-detail-hero px-6 md:px-20 pt-36 md:pt-48 pb-16 md:pb-24">
         <div className="max-w-[1600px] mx-auto">
           <Reveal>
-            <nav className="flex flex-wrap items-center gap-3 text-xs md:text-sm font-bold tracking-[0.18em] uppercase text-text-sub mb-14">
-              <Link href="/" className="hover:text-text-main transition-colors">Home</Link>
+            <nav className="flex flex-wrap items-center gap-3 text-xs md:text-sm font-bold tracking-[0.18em] uppercase text-white/50 mb-14">
+              <Link href="/" className="hover:text-white transition-colors">Home</Link>
               <span>/</span>
-              <Link href="/#services" className="hover:text-text-main transition-colors">Services</Link>
+              <Link href="/#services" className="hover:text-white transition-colors">Services</Link>
               <span>/</span>
-              <span className="text-text-main">{service.title}</span>
+              <span className="text-white/80">{service.title}</span>
             </nav>
           </Reveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1.08fr_0.92fr] gap-12 lg:gap-20 items-end">
             <div>
               <Reveal>
-                <p className="text-xs md:text-sm font-bold tracking-[0.34em] uppercase text-text-sub mb-6">
+                <p className="text-xs md:text-sm font-bold tracking-[0.34em] uppercase text-white/50 mb-6">
                   Service Detail
                 </p>
               </Reveal>
               <Reveal delay={80}>
-                <p className="text-text-sub font-medium tracking-[0.22em] text-sm md:text-base mb-5">
+                <p className="text-white/50 font-medium tracking-[0.22em] text-sm md:text-base mb-5">
                   {String(serviceIndex + 1).padStart(2, '0')} / {String(SERVICES_DATA.length).padStart(2, '0')}
                 </p>
                 <h1 className="text-5xl md:text-8xl lg:text-9xl font-medium leading-[0.92] tracking-tight">
@@ -234,7 +237,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               </h2>
             </Reveal>
             <Reveal delay={120}>
-              <p className="mt-10 text-base md:text-xl font-light leading-relaxed text-text-sub max-w-3xl">
+              <p className="mt-10 text-base md:text-xl font-light leading-relaxed text-white/60 max-w-3xl">
                 {detail.overview}
               </p>
             </Reveal>
@@ -252,10 +255,10 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section id="features" className="px-6 md:px-20 py-20 md:py-32 bg-white-main scroll-mt-24">
+      <section id="features" className="px-6 md:px-20 py-20 md:py-32 scroll-mt-24">
         <div className="max-w-[1600px] mx-auto">
           <Reveal className="mb-14 md:mb-20">
-            <p className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-text-sub mb-5">What We Create</p>
+            <p className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-white/50 mb-5">What We Create</p>
             <h2 className="text-3xl md:text-6xl font-medium tracking-tight">できること</h2>
           </Reveal>
 
@@ -279,11 +282,11 @@ export default async function ServiceDetailPage({ params }: Props) {
                       <div className="service-feature-card__icon">
                         <Icon className="w-5 h-5" />
                       </div>
-                      <p className="text-sm font-bold tracking-[0.22em] uppercase text-text-sub mb-4">
+                      <p className="text-sm font-bold tracking-[0.22em] uppercase text-white/50 mb-4">
                         {String(index + 1).padStart(2, '0')}
                       </p>
                       <h3 className="text-3xl md:text-5xl font-light tracking-tight mb-6">{feature.title}</h3>
-                      <p className="text-base md:text-lg font-light leading-relaxed text-text-sub max-w-xl">{feature.desc}</p>
+                      <p className="text-base md:text-lg font-light leading-relaxed text-white/60 max-w-xl">{feature.desc}</p>
                       {feature.href && (
                         <Link href={feature.href} className="service-feature-card__link">
                           詳しく見る
@@ -299,7 +302,7 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section id="flow" className="service-detail-flow bg-black-main text-white-main px-6 md:px-20 py-24 md:py-36 scroll-mt-24">
+      <section id="flow" className="service-detail-flow text-white-main px-6 md:px-20 py-24 md:py-36 scroll-mt-24">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-[0.65fr_1fr] gap-14 lg:gap-24">
           <Reveal>
             <div className="lg:sticky lg:top-32">
@@ -327,11 +330,11 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="px-6 md:px-20 py-20 md:py-28 bg-[#f7f7f4]">
+      <section className="px-6 md:px-20 py-20 md:py-28">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-20 items-start">
           <Reveal>
             <div>
-              <p className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-text-sub mb-5">Deliverables</p>
+              <p className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-white/50 mb-5">Deliverables</p>
               <h2 className="text-3xl md:text-5xl font-medium tracking-tight">制作範囲</h2>
             </div>
           </Reveal>
@@ -348,7 +351,7 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section id="works" className="service-related-works px-6 md:px-20 py-24 md:py-36 bg-black-main text-white-main scroll-mt-24">
+      <section id="works" className="service-related-works px-6 md:px-20 py-24 md:py-36 text-white-main scroll-mt-24">
         <div className="max-w-[1600px] mx-auto">
           <Reveal className="mb-14 md:mb-20">
             <p className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-white/50 mb-5">Other Works</p>
@@ -382,13 +385,13 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section id="media" className="px-6 md:px-20 py-24 md:py-36 bg-white-main scroll-mt-24">
+      <section id="media" className="px-6 md:px-20 py-24 md:py-36 scroll-mt-24">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-[0.6fr_1fr] gap-12 lg:gap-20">
           <Reveal>
             <div className="lg:sticky lg:top-32">
-              <p className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-text-sub mb-5">Media</p>
+              <p className="text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-white/50 mb-5">Media</p>
               <h2 className="text-3xl md:text-5xl font-medium tracking-tight mb-6">関連情報</h2>
-              <p className="text-text-sub font-light leading-relaxed max-w-sm">
+              <p className="text-white/60 font-light leading-relaxed max-w-sm">
                 制作前の検討や、公開後の改善に役立つ情報をまとめています。
               </p>
             </div>
@@ -441,6 +444,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       </section>
 
       <SiteFooter />
+      </div>
     </main>
   );
 }

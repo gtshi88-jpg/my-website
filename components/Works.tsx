@@ -9,6 +9,7 @@ import DepthTilt from '@/components/ui/DepthTilt';
 export default function Works() {
   const [activeFilter, setActiveFilter] = useState('all');
   const sectionRef = useRef<HTMLElement | null>(null);
+  const stickyRef = useRef<HTMLDivElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
@@ -19,43 +20,71 @@ export default function Works() {
 
   useEffect(() => {
     const section = sectionRef.current;
+    const sticky = stickyRef.current;
     const viewport = viewportRef.current;
     const track = trackRef.current;
     const progress = progressRef.current;
-    if (!section || !viewport || !track) return;
+    if (!section || !sticky || !viewport || !track) return;
 
     let rafId = 0;
 
     const clamp = (value: number) => Math.min(1, Math.max(0, value));
 
+    const resetPinStyles = () => {
+      sticky.style.position = '';
+      sticky.style.top = '';
+      sticky.style.left = '';
+      sticky.style.width = '';
+      section.style.height = '';
+      section.style.removeProperty('--works-scroll-length');
+      track.style.transform = 'translate3d(0, 0, 0)';
+      if (progress) progress.style.transform = 'scaleX(0)';
+    };
+
     const setSectionHeight = () => {
       if (window.innerWidth < 768) {
-        section.style.removeProperty('--works-scroll-length');
-        track.style.transform = 'translate3d(0, 0, 0)';
-        if (progress) progress.style.transform = 'scaleX(0)';
+        resetPinStyles();
         return;
       }
 
       const distance = Math.max(0, track.scrollWidth - viewport.clientWidth);
-      section.style.setProperty('--works-scroll-length', `${distance + window.innerHeight * 0.65}px`);
+      section.style.setProperty('--works-scroll-length', `${distance}px`);
+      section.style.height = `${window.innerHeight + distance}px`;
     };
 
     const update = () => {
       rafId = 0;
 
       if (window.innerWidth < 768) {
-        track.style.transform = 'translate3d(0, 0, 0)';
-        if (progress) progress.style.transform = 'scaleX(0)';
+        resetPinStyles();
         return;
       }
 
-      const sectionTop = section.offsetTop;
-      const scrollable = Math.max(1, section.offsetHeight - window.innerHeight);
-      const ratio = clamp((window.scrollY - sectionTop) / scrollable);
       const distance = Math.max(0, track.scrollWidth - viewport.clientWidth);
+      const pinDistance = Math.max(1, distance);
+      const rect = section.getBoundingClientRect();
+      const scrolled = -rect.top;
+      const ratio = clamp(scrolled / pinDistance);
 
       track.style.transform = `translate3d(${-distance * ratio}px, 0, 0)`;
       if (progress) progress.style.transform = `scaleX(${ratio})`;
+
+      if (scrolled < 0) {
+        sticky.style.position = 'relative';
+        sticky.style.top = '0';
+        sticky.style.left = '';
+        sticky.style.width = '';
+      } else if (scrolled <= pinDistance) {
+        sticky.style.position = 'fixed';
+        sticky.style.top = '0';
+        sticky.style.left = '0';
+        sticky.style.width = '100%';
+      } else {
+        sticky.style.position = 'absolute';
+        sticky.style.top = `${pinDistance}px`;
+        sticky.style.left = '0';
+        sticky.style.width = '100%';
+      }
     };
 
     const requestUpdate = () => {
@@ -71,7 +100,15 @@ export default function Works() {
     setSectionHeight();
     requestUpdate();
 
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setSectionHeight();
+        requestUpdate();
+      });
+    });
+
     const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(section);
     resizeObserver.observe(track);
     resizeObserver.observe(viewport);
 
@@ -83,21 +120,19 @@ export default function Works() {
       resizeObserver.disconnect();
       window.removeEventListener('scroll', requestUpdate);
       window.removeEventListener('resize', resize);
+      resetPinStyles();
     };
   }, [activeFilter, filteredWorks.length]);
 
   return (
-    <section id="work" ref={sectionRef} className="works-flow-section section-scene text-white-main border-t border-white/10" data-section-theme="dark">
-      <div className="works-flow-sticky">
+    <section id="work" ref={sectionRef} className="works-flow-section works-grey-scene section-scene text-text-main" data-section-theme="worksgrey">
+      <div ref={stickyRef} className="works-flow-sticky">
         <div className="works-flow-layout max-w-[1600px] mx-auto">
           <aside className="works-flow-copy section-copy-panel scroll-trigger opacity-0">
-            <p className="text-xs md:text-sm font-bold tracking-widest uppercase text-white/50 mb-6">Selected Work</p>
-            <h2 className="text-5xl md:text-7xl font-medium text-white-main leading-none tracking-tight">
+            <p className="text-xs md:text-sm font-bold tracking-widest uppercase text-text-sub mb-6">Selected Work</p>
+            <h2 className="text-5xl md:text-7xl font-medium text-text-main leading-none tracking-tight">
               Work that moves with the story.
             </h2>
-            <p className="mt-8 text-white/60 text-base md:text-lg font-light leading-relaxed max-w-sm">
-              実績の流れをスクロールに合わせて横方向へ展開します。視線は左の情報に残しながら、右側で制作物を連続的に見せる構成です。
-            </p>
 
             <div className="works-filter-list">
             {['all', 'photo', 'video', 'ui', 'web'].map(filter => (
@@ -121,10 +156,14 @@ export default function Works() {
 
           <div ref={viewportRef} className="works-flow-viewport">
             <div ref={trackRef} className="works-flow-track">
-              {filteredWorks.map((work, index) => (
+              {filteredWorks.map((work, index) => {
+                const isExternal = work.url.startsWith('http');
+                return (
                 <Link 
                   key={work.id} 
-                  href={work.url} 
+                  href={work.url}
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
                   className="works-flow-item"
                 >
                   <DepthTilt className="work-card section-lift-item group relative cursor-pointer animate-fade-in-up">
@@ -163,7 +202,8 @@ export default function Works() {
                     </article>
                   </DepthTilt>
                 </Link>
-              ))}
+                );
+              })}
               
               {filteredWorks.length === 0 && (
                 <div className="works-empty">

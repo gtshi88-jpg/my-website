@@ -49,7 +49,7 @@ export default function Hero({ isLoading }: { isLoading: boolean }) {
         {showScene ? <HeroScene3D /> : <div className="hero-scene-fallback" />}
       </div>
 
-      <div className="relative z-10 max-w-7xl w-full mx-auto text-white">
+      <div className="hero-content-lock relative z-10 max-w-7xl w-full mx-auto text-white">
         <p className={`hero-kicker transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
           WEB DESIGN / E-COMMERCE / CREATIVE PRODUCTION
         </p>

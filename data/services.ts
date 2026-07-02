@@ -153,7 +153,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     title: 'Maintenance',
     desc: '公開して終わり、ではありません。更新代行、改善、セキュリティ対応まで。サイトを継続的に育てる運用・保守で、公開後の成長に伴走します。',
     videoSrc: '/video/video_editing_image.mp4',
-    posterSrc: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600&auto=format&fit=crop',
+    posterSrc: '/video/hero-img.jpg',
     hasPlay: false
   },
   {
@@ -162,7 +162,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     title: 'Creative',
     desc: '写真・映像・グラフィック。サイトに載せる素材そのものを内製できるのが私たちの強みです。一貫した世界観で、ブランドの魅力を最大限に引き出します。',
     videoSrc: '/video/photo_image.mp4',
-    posterSrc: 'https://images.unsplash.com/photo-1542038784424-48ed7461330d?q=80&w=1600&auto=format&fit=crop',
+    posterSrc: '/images/root/hero-img.jpg',
     hasPlay: true
   },
 ];

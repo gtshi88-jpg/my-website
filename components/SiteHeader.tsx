@@ -7,10 +7,10 @@ import { COMPANY } from '@/data/company';
 import { SERVICES_DATA } from '@/data/services';
 
 const NAV_LINKS = [
-  { label: 'Services', href: '/#services' },
+  { label: 'Services', href: '/services' },
   { label: 'About', href: '/about' },
   { label: 'Work', href: '/works' },
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Company', href: '/company' },
 ];
 
 type SiteHeaderProps = {

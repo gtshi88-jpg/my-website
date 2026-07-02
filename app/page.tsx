@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 
 import SiteHeader from '@/components/SiteHeader';
 import HomeStarfield from '@/components/HomeStarfield';
+import WorksIntro from '@/components/WorksIntro';
+import PrismServiceTransition from '@/components/PrismServiceTransition';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import Works from '@/components/Works';
@@ -220,6 +222,9 @@ export default function Portfolio() {
       <SiteHeader theme="dark" />
       <div className="section-tone-layer" aria-hidden="true"></div>
       <HomeStarfield />
+      <div className="prism-ambient-layer" aria-hidden="true"></div>
+      <PrismServiceTransition isLoading={isLoading} />
+      <WorksIntro />
 
       <main className="relative z-10">
         {/* Heroコンポーネントにも isFirstVisit を渡して、
@@ -228,8 +233,8 @@ export default function Portfolio() {
         */}
         <Hero isLoading={isLoading} />
         <Services />
-        <Works />
         <Marquee />
+        <Works />
         <About />
         <Contact />
       </main>
